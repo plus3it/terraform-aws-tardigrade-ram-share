@@ -1,20 +1,21 @@
-provider "aws" {}
+provider "aws" {
+}
 
 provider "aws" {
   alias = "owner"
 }
 
 resource "aws_ram_principal_association" "this" {
-  count = "${var.create_ram_principal_association ? 1 : 0}"
+  count = var.create_ram_principal_association ? 1 : 0
 
-  provider = "aws.owner"
+  provider = aws.owner
 
-  principal          = "${var.principal}"
-  resource_share_arn = "${var.resource_share_arn}"
+  principal          = var.principal
+  resource_share_arn = var.resource_share_arn
 }
 
 resource "null_resource" "this" {
-  count = "${var.create_ram_principal_association && var.cross_account && var.auto_accept ? 1 : 0}"
+  count = var.create_ram_principal_association && var.cross_account && var.auto_accept ? 1 : 0
 
   # The invite for the principal association sometimes takes a few seconds to register
   # before it can be accepted in the target account, so we pause for 3 seconds to let
@@ -24,7 +25,7 @@ resource "null_resource" "this" {
   }
 
   provisioner "local-exec" {
-    command = "${join(" ", local.command)}"
+    command = join(" ", local.command)
   }
 }
 
@@ -34,7 +35,11 @@ locals {
   # =>
   #     arn:aws:iam::<account-id>:role/<role-name>
   # This allows a user to simply pass `role_arn = "${data.aws_caller_identity.this.arn}"`
-  role_arn = "${replace(var.role_arn, "/(.*):sts:(.*):assumed-role/(.*)/[0-9]*$/", "$1:iam:$2:role/$3")}"
+  role_arn = replace(
+    var.role_arn,
+    "/(.*):sts:(.*):assumed-role/(.*)/[0-9]*$/",
+    "$1:iam:$2:role/$3",
+  )
 
   command = [
     "python",

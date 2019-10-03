@@ -1,5 +1,6 @@
 variable "create_ram_principal_association" {
   description = "Controls whether to create the RAM Principal Association"
+  type        = bool
   default     = true
 }
 
@@ -17,11 +18,13 @@ variable "principal" {
 
 variable "cross_account" {
   description = "Boolean to indicate whether principal is another account"
+  type        = bool
   default     = true
 }
 
 variable "auto_accept" {
   description = "Controls whether to automatically accept the invite, in case principal is another account"
+  type        = bool
   default     = true
 }
 

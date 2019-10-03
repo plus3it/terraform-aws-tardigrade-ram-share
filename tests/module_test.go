@@ -19,24 +19,22 @@ func TestModule(t *testing.T) {
 	for _, f := range files {
 		// look for directories with test cases in it
 		if f.IsDir() && f.Name() != "vendor" {
-			investigateDirectory(t, f)
+			t.Run(f.Name(), func(t *testing.T) {
+				// check if a prereq directory exists
+				prereqDir := f.Name() + "/prereq/"
+				if _, err := os.Stat(prereqDir); err == nil {
+					prereqOptions := createTerraformOptions(prereqDir)
+					defer terraform.Destroy(t, prereqOptions)
+					terraform.InitAndApply(t, prereqOptions)
+				}
+
+				// run terraform code for test case
+				terraformOptions := createTerraformOptions(f.Name())
+				defer terraform.Destroy(t, terraformOptions)
+				terraform.InitAndApply(t, terraformOptions)
+			})
 		}
 	}
-}
-
-func investigateDirectory(t *testing.T, directory os.FileInfo) {
-	// check if a prereq directory exists
-	prereqDir := directory.Name() + "/prereq/"
-	if _, err := os.Stat(prereqDir); err == nil {
-		prereqOptions := createTerraformOptions(prereqDir)
-		defer terraform.Destroy(t, prereqOptions)
-		terraform.InitAndApply(t, prereqOptions)
-	}
-
-	// run terraform code for test case
-	terraformOptions := createTerraformOptions(directory.Name())
-	defer terraform.Destroy(t, terraformOptions)
-	terraform.InitAndApply(t, terraformOptions)
 }
 
 func createTerraformOptions(directory string) *terraform.Options {

@@ -12,9 +12,9 @@ that you will be using a profile with the name `resource-owner` and `resource-me
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| auto\_accept | Controls whether to automatically accept the invite, in case principal is another account | string | `"true"` | no |
-| create\_ram\_principal\_association | Controls whether to create the RAM Principal Association | string | `"true"` | no |
-| cross\_account | Boolean to indicate whether principal is another account | string | `"true"` | no |
+| auto\_accept | Controls whether to automatically accept the invite, in case principal is another account | bool | `"true"` | no |
+| create\_ram\_principal\_association | Controls whether to create the RAM Principal Association | bool | `"true"` | no |
+| cross\_account | Boolean to indicate whether principal is another account | bool | `"true"` | no |
 | principal | The principal to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | string | `"null"` | no |
 | profile | (Optional) Used by null_resource to establish botocore session | string | `""` | no |
 | region | (Optional) Used by null_resource to establish botocore client | string | `"null"` | no |

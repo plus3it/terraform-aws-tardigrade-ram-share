@@ -101,22 +101,19 @@ json/format: | guard/program/jq
 	@ echo "[$@]: Successfully formatted JSON files!"
 
 tfdocs-awk/install: $(BIN_DIR)
-tfdocs-awk/install: ARCHIVE := https://github.com/plus3it/tfdocs-awk/archive/master.tar.gz
+tfdocs-awk/install: ARCHIVE := https://github.com/plus3it/tfdocs-awk/archive/0.0.0.tar.gz
 tfdocs-awk/install:
 	$(CURL) $(ARCHIVE) | tar -C $(BIN_DIR) --strip-components=1 --wildcards '*.sh' --wildcards '*.awk' -xzvf -
 
-docs/%: README_PARTS := _docs/MAIN.md <(echo) <($(BIN_DIR)/terraform-docs.sh markdown table .)
-docs/%: README_FILE ?= README.md
-
-docs/lint: | guard/program/terraform-docs tfdocs-awk/install
-	@ echo "[$@]: Linting documentation files.."
-	diff $(README_FILE) <(cat $(README_PARTS))
-	@ echo "[$@]: Documentation files PASSED lint test!"
-
-docs/generate: | guard/program/terraform-docs tfdocs-awk/install
+docs/generate: | tfdocs-awk/install guard/program/terraform-docs
 	@ echo "[$@]: Creating documentation files.."
-	cat $(README_PARTS) > $(README_FILE)
-	@ echo "[$@]: Documentation files creation complete!"
+	@ bash -eu -o pipefail autodocs.sh -g
+	@ echo "[$@]: Documentation generated!"
+
+docs/lint: | tfdocs-awk/install guard/program/terraform-docs
+	@ echo "[$@] Linting documentation files.."
+	@ bash -eu -o pipefail autodocs.sh -l
+	@ echo "[$@] documentation linting complete!"
 
 terratest/install: | guard/program/go
 	cd tests && go mod init terraform-aws-tardigrade-ram-principal-association/tests

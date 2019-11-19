@@ -47,6 +47,17 @@ install/gh-release/%:
 	$* --version
 	@ echo "[$@]: Completed successfully!"
 
+install/pip/%: PYTHON ?= python
+install/pip/%: | guard/env/PYPI_PKG_NAME
+	@ echo "[$@]: Installing $*..."
+	$(PYTHON) -m pip install --user $(PYPI_PKG_NAME)
+	ln -sf ~/.local/bin/$* $(BIN_DIR)/$*
+	$* --version
+	@ echo "[$@]: Completed successfully!"
+
+black/install:
+	@ $(MAKE) install/pip/$(@D) PYPI_PKG_NAME=$(@D)
+
 zip/install:
 	@ echo "[$@]: Installing $(@D)..."
 	apt-get install zip -y
@@ -83,6 +94,11 @@ terraform/lint: | guard/program/terraform
 	terraform fmt -check=true -diff=true
 	@ echo "[$@]: Terraform files PASSED lint test!"
 
+terraform/format: | guard/program/terraform
+	@ echo "[$@]: Formatting Terraform files..."
+	terraform fmt -recursive
+	@ echo "[$@]: Successfully formatted terraform files!"
+
 sh/%: FIND_SH := find . $(FIND_EXCLUDES) -name '*.sh' -type f -print0
 sh/lint: | guard/program/shellcheck
 	@ echo "[$@]: Linting shell scripts..."
@@ -115,12 +131,22 @@ docs/lint: | tfdocs-awk/install guard/program/terraform-docs
 	@ bash -eu -o pipefail autodocs.sh -l
 	@ echo "[$@] documentation linting complete!"
 
+python/lint: | guard/program/black
+	@ echo "[$@]: Linting Python files..."
+	black --check .
+	@ echo "[$@]: Python files PASSED lint test!"
+
+python/format: | guard/program/black
+	@ echo "[$@]: Formatting Python files..."
+	black .
+	@ echo "[$@]: Successfully formatted Python files!"
+
 terratest/install: | guard/program/go
 	cd tests && go mod init terraform-aws-tardigrade-ram-principal-association/tests
 	cd tests && go build ./...
 	cd tests && go mod tidy
 
 terratest/test: | guard/program/go
-	cd tests && go test -timeout 20m
+	cd tests && go test -count=1 -timeout 20m
 
 test: terratest/test

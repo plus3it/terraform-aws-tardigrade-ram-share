@@ -16,10 +16,10 @@ that you will be using a profile with the name `resource-owner` and `resource-me
 | create\_ram\_principal\_association | Controls whether to create the RAM Principal Association | bool | `"true"` | no |
 | cross\_account | Boolean to indicate whether principal is another account | bool | `"true"` | no |
 | principal | The principal to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | string | `"null"` | no |
-| profile | (Optional) Used by null_resource to establish botocore session | string | `""` | no |
-| region | (Optional) Used by null_resource to establish botocore client | string | `"null"` | no |
+| profile | \(Optional\) Used by null\_resource to establish botocore session | string | `""` | no |
+| region | \(Optional\) Used by null\_resource to establish botocore client | string | `"null"` | no |
 | resource\_share\_arn | ARN of the resource share | string | `"null"` | no |
-| role\_arn | (Optional) Used by null_resource to assume a role in the accepter account | string | `""` | no |
+| role\_arn | \(Optional\) Used by null\_resource to assume a role in the accepter account | string | `""` | no |
 
 ## Outputs
 

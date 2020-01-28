@@ -8,18 +8,27 @@ You can find example implementations of this module in the tests folder. Please 
 requires 2 different AWS accounts to test and that the terraform aws provider definitions are assuming
 that you will be using a profile with the name `resource-owner` and `resource-member`
 
+
+<!-- BEGIN TFDOCS -->
+## Providers
+
+| Name | Version |
+|------|---------|
+| aws.owner | n/a |
+| null | n/a |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| auto\_accept | Controls whether to automatically accept the invite, in case principal is another account | bool | `"true"` | no |
-| create\_ram\_principal\_association | Controls whether to create the RAM Principal Association | bool | `"true"` | no |
-| cross\_account | Boolean to indicate whether principal is another account | bool | `"true"` | no |
-| principal | The principal to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | string | `"null"` | no |
-| profile | \(Optional\) Used by null\_resource to establish botocore session | string | `""` | no |
-| region | \(Optional\) Used by null\_resource to establish botocore client | string | `"null"` | no |
-| resource\_share\_arn | ARN of the resource share | string | `"null"` | no |
-| role\_arn | \(Optional\) Used by null\_resource to assume a role in the accepter account | string | `""` | no |
+|------|-------------|------|---------|:-----:|
+| principal | The principal to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | `string` | n/a | yes |
+| region | (Optional) Used by null\_resource to establish botocore client | `string` | n/a | yes |
+| resource\_share\_arn | ARN of the resource share | `string` | n/a | yes |
+| auto\_accept | Controls whether to automatically accept the invite, in case principal is another account | `bool` | `true` | no |
+| create\_ram\_principal\_association | Controls whether to create the RAM Principal Association | `bool` | `true` | no |
+| cross\_account | Boolean to indicate whether principal is another account | `bool` | `true` | no |
+| profile | (Optional) Used by null\_resource to establish botocore session | `string` | `""` | no |
+| role\_arn | (Optional) Used by null\_resource to assume a role in the accepter account | `string` | `""` | no |
 
 ## Outputs
 
@@ -29,3 +38,4 @@ that you will be using a profile with the name `resource-owner` and `resource-me
 | principal | Principal associated with the resource share. |
 | resource\_share\_arn | ARN of the resource share |
 
+<!-- END TFDOCS -->

@@ -1,13 +1,13 @@
 provider aws {
-  region = "us-east-1"
+  region  = "us-east-1"
   profile = "resource-owner"
 }
 
 resource "random_string" "this" {
-  length = 6
-  upper = false
+  length  = 6
+  upper   = false
   special = false
-  number = false
+  number  = false
 }
 
 module "vpc" {

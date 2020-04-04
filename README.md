@@ -10,6 +10,12 @@ that you will be using a profile with the name `resource-owner` and `resource-me
 
 
 <!-- BEGIN TFDOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 0.12 |
+
 ## Providers
 
 | Name | Version |
@@ -20,14 +26,14 @@ that you will be using a profile with the name `resource-owner` and `resource-me
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
-| principal | The principal to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | `string` | n/a | yes |
-| region | (Optional) Used by null\_resource to establish botocore client | `string` | n/a | yes |
-| resource\_share\_arn | ARN of the resource share | `string` | n/a | yes |
+|------|-------------|------|---------|:--------:|
 | auto\_accept | Controls whether to automatically accept the invite, in case principal is another account | `bool` | `true` | no |
 | create\_ram\_principal\_association | Controls whether to create the RAM Principal Association | `bool` | `true` | no |
 | cross\_account | Boolean to indicate whether principal is another account | `bool` | `true` | no |
+| principal | The principal to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | `string` | `null` | no |
 | profile | (Optional) Used by null\_resource to establish botocore session | `string` | `""` | no |
+| region | (Optional) Used by null\_resource to establish botocore client | `string` | `null` | no |
+| resource\_share\_arn | ARN of the resource share | `string` | `null` | no |
 | role\_arn | (Optional) Used by null\_resource to assume a role in the accepter account | `string` | `""` | no |
 
 ## Outputs

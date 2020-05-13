@@ -14,43 +14,23 @@ resource "aws_ram_principal_association" "this" {
   resource_share_arn = var.resource_share_arn
 }
 
-resource "null_resource" "this" {
-  count = var.create_ram_principal_association && var.cross_account && var.auto_accept ? 1 : 0
+resource "aws_ram_resource_share_accepter" "this" {
+  count = var.create_ram_principal_association && local.cross_account && var.auto_accept ? 1 : 0
 
-  # The invite for the principal association sometimes takes a few seconds to register
-  # before it can be accepted in the target account, so we pause for 3 seconds to let
-  # the invite propagate
-  provisioner "local-exec" {
-    command = "python -c 'import time; time.sleep(3)'"
-  }
+  provider = aws
 
-  provisioner "local-exec" {
-    command = join(" ", local.command)
-  }
+  share_arn = aws_ram_principal_association.this[0].resource_share_arn
+}
+
+data "aws_caller_identity" "this" {
+  count = var.create_ram_principal_association ? 1 : 0
+}
+
+data "aws_caller_identity" "owner" {
+  count    = var.create_ram_principal_association ? 1 : 0
+  provider = aws.owner
 }
 
 locals {
-  # Replace a terraform-aws-provider sts assumed role with the equivalent iam role, i.e:
-  #     arn:aws:sts::<account-id>:assumed-role/<role-name>/<numeric-session-id>
-  # =>
-  #     arn:aws:iam::<account-id>:role/<role-name>
-  # This allows a user to simply pass `role_arn = "${data.aws_caller_identity.this.arn}"`
-  role_arn = replace(
-    var.role_arn,
-    "/(.*):sts:(.*):assumed-role/(.*)/[0-9]*$/",
-    "$1:iam:$2:role/$3",
-  )
-
-  command = [
-    "python",
-    "\"${path.module}/ram_principal_association_accepter.py\"",
-    "--resource-share-arn",
-    "\"${join("", aws_ram_principal_association.this.*.resource_share_arn)}\"",
-    "--profile",
-    "\"${var.profile}\"",
-    "--role-arn",
-    "\"${local.role_arn}\"",
-    "--region",
-    "\"${var.region}\"",
-  ]
+  cross_account = join("", data.aws_caller_identity.this.*.account_id) != join("", data.aws_caller_identity.owner.*.account_id)
 }

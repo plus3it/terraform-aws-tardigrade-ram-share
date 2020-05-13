@@ -69,8 +69,8 @@ resource "aws_ram_resource_share" "this" {
 }
 
 resource "aws_ram_resource_association" "this" {
-  resource_arn       = "${aws_route53_resolver_rule.this.arn}"
-  resource_share_arn = "${aws_ram_resource_share.this.arn}"
+  resource_arn       = aws_route53_resolver_rule.this.arn
+  resource_share_arn = aws_ram_resource_share.this.arn
 }
 
 output "ram_arn" {

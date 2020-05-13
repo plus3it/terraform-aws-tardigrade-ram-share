@@ -10,5 +10,4 @@ module "create_ram_accept" {
   }
 
   create_ram_principal_association = false
-  region                           = "us-east-1"
 }

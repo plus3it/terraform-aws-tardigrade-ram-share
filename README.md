@@ -20,8 +20,8 @@ that you will be using a profile with the name `resource-owner` and `resource-me
 
 | Name | Version |
 |------|---------|
+| aws | n/a |
 | aws.owner | n/a |
-| null | n/a |
 
 ## Inputs
 
@@ -29,19 +29,17 @@ that you will be using a profile with the name `resource-owner` and `resource-me
 |------|-------------|------|---------|:--------:|
 | auto\_accept | Controls whether to automatically accept the invite, in case principal is another account | `bool` | `true` | no |
 | create\_ram\_principal\_association | Controls whether to create the RAM Principal Association | `bool` | `true` | no |
-| cross\_account | Boolean to indicate whether principal is another account | `bool` | `true` | no |
 | principal | The principal to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | `string` | `null` | no |
-| profile | (Optional) Used by null\_resource to establish botocore session | `string` | `""` | no |
-| region | (Optional) Used by null\_resource to establish botocore client | `string` | `null` | no |
 | resource\_share\_arn | ARN of the resource share | `string` | `null` | no |
-| role\_arn | (Optional) Used by null\_resource to assume a role in the accepter account | `string` | `""` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| accepter\_id | ID of the null resource used to accept the share |
-| principal | Principal associated with the resource share. |
+| principal | Principal associated with the resource share |
 | resource\_share\_arn | ARN of the resource share |
+| resources | A list of the resource ARNs shared via the resource share |
+| share\_id | The ID of the resource share as displayed in the console |
+| share\_name | The name of the resource share |
 
 <!-- END TFDOCS -->

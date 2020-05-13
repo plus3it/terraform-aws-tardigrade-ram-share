@@ -23,15 +23,17 @@ data "terraform_remote_state" "prereq" {
 module "create_ram_accept" {
   source = "../../"
   providers = {
-    aws       = "aws"
-    aws.owner = "aws.resource-owner"
+    aws       = aws
+    aws.owner = aws.resource-owner
   }
 
   create_ram_principal_association = true
-  profile                          = "resource-member"
-  region                           = "us-east-1"
-  cross_account                    = true
-  auto_accept                      = true
-  principal                        = data.aws_caller_identity.current.account_id
-  resource_share_arn               = data.terraform_remote_state.prereq.outputs.ram_arn
+
+  auto_accept        = true
+  principal          = data.aws_caller_identity.current.account_id
+  resource_share_arn = data.terraform_remote_state.prereq.outputs.ram_arn
+}
+
+output "create_ram_accept" {
+  value = module.create_ram_accept
 }

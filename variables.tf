@@ -1,13 +1,13 @@
-variable "create_ram_principal_association" {
-  description = "Controls whether to create the RAM Principal Association"
+variable "auto_accept" {
+  description = "Controls whether to automatically accept the invite, in case principal is another account"
   type        = bool
   default     = true
 }
 
-variable "resource_share_arn" {
-  description = "ARN of the resource share"
-  type        = string
-  default     = null
+variable "create_ram_principal_association" {
+  description = "Controls whether to create the RAM Principal Association"
+  type        = bool
+  default     = true
 }
 
 variable "principal" {
@@ -16,32 +16,8 @@ variable "principal" {
   default     = null
 }
 
-variable "cross_account" {
-  description = "Boolean to indicate whether principal is another account"
-  type        = bool
-  default     = true
-}
-
-variable "auto_accept" {
-  description = "Controls whether to automatically accept the invite, in case principal is another account"
-  type        = bool
-  default     = true
-}
-
-variable "profile" {
-  description = "(Optional) Used by null_resource to establish botocore session"
-  type        = string
-  default     = ""
-}
-
-variable "role_arn" {
-  description = "(Optional) Used by null_resource to assume a role in the accepter account"
-  type        = string
-  default     = ""
-}
-
-variable "region" {
-  description = "(Optional) Used by null_resource to establish botocore client"
+variable "resource_share_arn" {
+  description = "ARN of the resource share"
   type        = string
   default     = null
 }

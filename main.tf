@@ -15,7 +15,7 @@ resource "aws_ram_principal_association" "this" {
 }
 
 resource "aws_ram_resource_share_accepter" "this" {
-  count = var.create_ram_principal_association && local.cross_account && var.auto_accept ? 1 : 0
+  count = local.create_ram_resource_share_accepter && var.auto_accept ? 1 : 0
 
   provider = aws
 
@@ -32,5 +32,5 @@ data "aws_caller_identity" "owner" {
 }
 
 locals {
-  cross_account = join("", data.aws_caller_identity.this.*.account_id) != join("", data.aws_caller_identity.owner.*.account_id)
+  create_ram_resource_share_accepter = var.create_ram_principal_association ? data.aws_caller_identity.this[0].account_id != data.aws_caller_identity.owner[0].account_id : false
 }

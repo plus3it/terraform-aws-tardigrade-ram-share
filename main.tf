@@ -37,5 +37,5 @@ data "aws_caller_identity" "owner" {
 }
 
 locals {
-  create_ram_resource_share_accepter = var.create_ram_principal_association ? data.aws_caller_identity.this[0].account_id != data.aws_caller_identity.owner[0].account_id : false
+  create_ram_resource_share_accepter = var.create_ram_principal_association ? join("", data.aws_caller_identity.this.*.account_id) != join("", data.aws_caller_identity.owner.*.account_id) : false
 }

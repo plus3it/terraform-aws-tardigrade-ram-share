@@ -3,19 +3,27 @@ provider aws {
   profile = "resource-owner"
 }
 
-resource "random_string" "this" {
-  length  = 6
-  upper   = false
-  special = false
-  number  = false
+module share {
+  source = "../.."
+
+  name = "tardigrade-ram-${random_string.this.result}"
+
+  allow_external_principals = true
+
+  resources = [
+    {
+      name         = "resolver-rule"
+      resource_arn = aws_route53_resolver_rule.this.arn
+    }
+  ]
+
+  tags = {
+    Environment = "testing"
+  }
 }
 
-module "vpc" {
+module vpc {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc?ref=v2.15.0"
-
-  providers = {
-    aws = aws
-  }
 
   name            = "tardigrade-ram-${random_string.this.result}"
   cidr            = "10.0.0.0/16"
@@ -23,18 +31,18 @@ module "vpc" {
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
-resource "aws_security_group" "this" {
+resource aws_security_group this {
   name        = "empty_sg"
   description = "empty_sg for testing"
   vpc_id      = module.vpc.vpc_id
 }
 
-resource "aws_route53_resolver_endpoint" "this" {
+resource aws_route53_resolver_endpoint this {
   name      = "tardigrade-resolver-${random_string.this.result}"
   direction = "OUTBOUND"
 
   security_group_ids = [
-    "${aws_security_group.this.id}",
+    aws_security_group.this.id,
   ]
 
   ip_address {
@@ -48,7 +56,7 @@ resource "aws_route53_resolver_endpoint" "this" {
   }
 }
 
-resource "aws_route53_resolver_rule" "this" {
+resource aws_route53_resolver_rule this {
   domain_name          = "${random_string.this.result}.com"
   name                 = "tardigrate-rr-${random_string.this.result}"
   rule_type            = "FORWARD"
@@ -59,20 +67,13 @@ resource "aws_route53_resolver_rule" "this" {
   }
 }
 
-resource "aws_ram_resource_share" "this" {
-  name                      = "tardigrade-ram-${random_string.this.result}"
-  allow_external_principals = true
-
-  tags = {
-    Environment = "testing"
-  }
+resource random_string this {
+  length  = 6
+  upper   = false
+  special = false
+  number  = false
 }
 
-resource "aws_ram_resource_association" "this" {
-  resource_arn       = aws_route53_resolver_rule.this.arn
-  resource_share_arn = aws_ram_resource_share.this.arn
-}
-
-output "ram_arn" {
-  value = aws_ram_resource_share.this.arn
+output share {
+  value = module.share
 }

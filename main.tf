@@ -1,41 +1,22 @@
-provider "aws" {
+resource aws_ram_resource_share this {
+  name = var.name
+  tags = var.tags
+
+  allow_external_principals = var.allow_external_principals
 }
 
-provider "aws" {
-  alias = "owner"
+module resource_associations {
+  source   = "./modules/resource_association"
+  for_each = { for resource in var.resources : resource.name => resource }
+
+  resource_arn       = each.value.resource_arn
+  resource_share_arn = aws_ram_resource_share.this.arn
 }
 
-resource "aws_ram_principal_association" "this" {
-  count = var.create_ram_principal_association ? 1 : 0
+module principal_associations {
+  source   = "./modules/principal_association"
+  for_each = toset(var.principals)
 
-  provider = aws.owner
-
-  principal          = var.principal
-  resource_share_arn = var.resource_share_arn
-
-  # The invitation sometime takes a few seconds to propagate
-  provisioner "local-exec" {
-    command = "python -c 'import time; time.sleep(10)'"
-  }
-}
-
-resource "aws_ram_resource_share_accepter" "this" {
-  count = local.create_ram_resource_share_accepter && var.auto_accept ? 1 : 0
-
-  provider = aws
-
-  share_arn = aws_ram_principal_association.this[0].resource_share_arn
-}
-
-data "aws_caller_identity" "this" {
-  count = var.create_ram_principal_association ? 1 : 0
-}
-
-data "aws_caller_identity" "owner" {
-  count    = var.create_ram_principal_association ? 1 : 0
-  provider = aws.owner
-}
-
-locals {
-  create_ram_resource_share_accepter = var.create_ram_principal_association ? join("", data.aws_caller_identity.this.*.account_id) != join("", data.aws_caller_identity.owner.*.account_id) : false
+  principal          = each.value
+  resource_share_arn = aws_ram_resource_share.this.arn
 }

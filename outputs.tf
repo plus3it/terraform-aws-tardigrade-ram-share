@@ -1,25 +1,14 @@
-# RAM Principal Association
-output "resource_share_arn" {
-  description = "ARN of the resource share"
-  value       = join("", aws_ram_principal_association.this.*.resource_share_arn)
+output resource_share {
+  description = "Object with the AWS RAM resource share resource"
+  value       = aws_ram_resource_share.this
 }
 
-output "principal" {
-  description = "Principal associated with the resource share"
-  value       = join("", aws_ram_principal_association.this.*.principal)
+output resource_associations {
+  description = "Object with the AWS RAM resource associations resources"
+  value       = module.resource_associations
 }
 
-output "share_id" {
-  description = "The ID of the resource share as displayed in the console"
-  value       = join("", aws_ram_resource_share_accepter.this.*.share_id)
-}
-
-output "share_name" {
-  description = "The name of the resource share"
-  value       = join("", aws_ram_resource_share_accepter.this.*.share_name)
-}
-
-output "resources" {
-  description = "A list of the resource ARNs shared via the resource share"
-  value       = aws_ram_resource_share_accepter.this.*.resources
+output principal_associations {
+  description = "Object with the AWS RAM principal associations resources"
+  value       = module.principal_associations
 }

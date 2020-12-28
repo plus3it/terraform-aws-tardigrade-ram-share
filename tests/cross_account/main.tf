@@ -1,15 +1,15 @@
-provider aws {
+provider "aws" {
   region  = "us-east-1"
   profile = "resource-owner"
 }
 
-provider aws {
+provider "aws" {
   region  = "us-east-1"
   alias   = "resource-member"
   profile = "resource-member"
 }
 
-module cross_account {
+module "cross_account" {
   source = "../../modules/cross_account_principal_association"
 
   providers = {
@@ -20,7 +20,7 @@ module cross_account {
   resource_share_arn = module.share.resource_share.arn
 }
 
-module share {
+module "share" {
   source = "../.."
 
   name = "tardigrade-ram-${random_string.this.result}"
@@ -39,7 +39,7 @@ module share {
   }
 }
 
-module vpc {
+module "vpc" {
   source = "github.com/terraform-aws-modules/terraform-aws-vpc?ref=v2.15.0"
 
   name            = "tardigrade-ram-${random_string.this.result}"
@@ -48,13 +48,13 @@ module vpc {
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
 }
 
-resource aws_security_group this {
+resource "aws_security_group" "this" {
   name        = "empty_sg"
   description = "empty_sg for testing"
   vpc_id      = module.vpc.vpc_id
 }
 
-resource aws_route53_resolver_endpoint this {
+resource "aws_route53_resolver_endpoint" "this" {
   name      = "tardigrade-resolver-${random_string.this.result}"
   direction = "OUTBOUND"
 
@@ -73,7 +73,7 @@ resource aws_route53_resolver_endpoint this {
   }
 }
 
-resource aws_route53_resolver_rule this {
+resource "aws_route53_resolver_rule" "this" {
   domain_name          = "${random_string.this.result}.com"
   name                 = "tardigrate-rr-${random_string.this.result}"
   rule_type            = "FORWARD"
@@ -84,17 +84,17 @@ resource aws_route53_resolver_rule this {
   }
 }
 
-resource random_string this {
+resource "random_string" "this" {
   length  = 6
   upper   = false
   special = false
   number  = false
 }
 
-output share {
+output "share" {
   value = module.share
 }
 
-output cross_account {
+output "cross_account" {
   value = module.cross_account
 }

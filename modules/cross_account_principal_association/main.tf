@@ -1,8 +1,8 @@
-provider aws {
+provider "aws" {
   alias = "owner"
 }
 
-module principal_association {
+module "principal_association" {
   source = "../principal_association"
 
   providers = {
@@ -13,10 +13,10 @@ module principal_association {
   resource_share_arn = var.resource_share_arn
 }
 
-module accepter {
+module "accepter" {
   source = "../share_accepter"
 
   resource_share_arn = module.principal_association.principal_association.resource_share_arn
 }
 
-data aws_caller_identity this {}
+data "aws_caller_identity" "this" {}

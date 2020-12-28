@@ -1,21 +1,21 @@
-variable name {
+variable "name" {
   description = "Name of the resource share"
   type        = string
 }
 
-variable allow_external_principals {
+variable "allow_external_principals" {
   description = "Boolean indicating whether principals outside the AWS organization can be associated with the resource share"
   type        = bool
   default     = false
 }
 
-variable principals {
+variable "principals" {
   description = "List of principals to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN."
   type        = list(string)
   default     = []
 }
 
-variable resources {
+variable "resources" {
   description = "Schema list of resources to associate to the resource share"
   type = list(object({
     name         = string # used as for_each key; cannot be an attribute of a resource in the same tfstate
@@ -24,7 +24,7 @@ variable resources {
   default = []
 }
 
-variable tags {
+variable "tags" {
   description = "Map of tags to assign to the resource share"
   type        = map(string)
   default     = {}

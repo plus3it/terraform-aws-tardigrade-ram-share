@@ -14,12 +14,13 @@ provider configs for the tests require that you use a profiles with the names `r
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
+| aws | >= 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | n/a |
+| aws | >= 3.0 |
 
 ## Inputs
 

@@ -5,25 +5,30 @@
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.13 |
-| aws | >= 3.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 3.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.0 |
+
+## Resources
+
+| Name | Type |
+|------|------|
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| resource\_share\_arn | ARN of the resource share | `string` | n/a | yes |
+| <a name="input_resource_share_arn"></a> [resource\_share\_arn](#input\_resource\_share\_arn) | ARN of the resource share | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| share\_accepter | Object with the AWS RAM share accepter resource |
+| <a name="output_share_accepter"></a> [share\_accepter](#output\_share\_accepter) | Object with the AWS RAM share accepter resource |
 
 <!-- END TFDOCS -->

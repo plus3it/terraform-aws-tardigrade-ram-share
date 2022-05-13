@@ -4,11 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-### 4.0.1
+### 4.0.0
 
-**Released**: 2022.05.23
+**Released**: 2022.05.16
 
-**Commit Delta**: [Change from 3.0.1 release](https://github.com/plus3it/terraform-aws-tardigrade-ram-principal-association/compare/3.0.1...4.0.2)
+**Commit Delta**: [Change from 3.0.1 release](https://github.com/plus3it/terraform-aws-tardigrade-ram-principal-association/compare/3.0.1...4.0.0)
 
 **Summary**:
 

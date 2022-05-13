@@ -1,12 +1,14 @@
+# The provider account for the RAM share owner
 provider "aws" {
   region  = "us-east-1"
-  profile = "resource-owner"
+  profile = "aws" # Profile must exist in your .aws/config
 }
 
+# AWS provider account for the RAM share member acccount
 provider "aws" {
   region  = "us-east-1"
   alias   = "resource-member"
-  profile = "resource-member"
+  profile = "awsalternate" # Profile must exist in your .aws/config
 }
 
 module "cross_account" {

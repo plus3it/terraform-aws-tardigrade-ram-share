@@ -1,7 +1,3 @@
-provider "aws" {
-  alias = "owner"
-}
-
 module "principal_association" {
   source = "../principal_association"
 

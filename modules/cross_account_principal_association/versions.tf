@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source                = "hashicorp/aws"
-      version               = ">= 3.0"
+      version               = ">= 5.37.0"
       configuration_aliases = [aws.owner]
     }
   }

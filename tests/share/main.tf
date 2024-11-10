@@ -23,7 +23,7 @@ module "share" {
 }
 
 module "vpc" {
-  source = "github.com/terraform-aws-modules/terraform-aws-vpc?ref=v3.16.1"
+  source = "github.com/terraform-aws-modules/terraform-aws-vpc?ref=v5.15.0"
 
   name            = "tardigrade-ram-${random_string.this.result}"
   cidr            = "10.0.0.0/16"
@@ -71,7 +71,7 @@ resource "random_string" "this" {
   length  = 6
   upper   = false
   special = false
-  number  = false
+  numeric = false
 }
 
 output "share" {

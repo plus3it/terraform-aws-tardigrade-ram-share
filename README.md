@@ -34,7 +34,7 @@ provider configs for the tests require that you use a profiles with the names `r
 | <a name="input_name"></a> [name](#input\_name) | Name of the resource share | `string` | n/a | yes |
 | <a name="input_allow_external_principals"></a> [allow\_external\_principals](#input\_allow\_external\_principals) | Boolean indicating whether principals outside the AWS organization can be associated with the resource share | `bool` | `false` | no |
 | <a name="input_principals"></a> [principals](#input\_principals) | List of principals to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | `list(string)` | `[]` | no |
-| <a name="input_resources"></a> [resources](#input\_resources) | Schema list of resources to associate to the resource share | <pre>list(object({<br>    name         = string # used as for_each key; cannot be an attribute of a resource in the same tfstate<br>    resource_arn = string # ARN of the resource to associate with the share; *can* be an attribute of a resource in the same tfstate<br>  }))</pre> | `[]` | no |
+| <a name="input_resources"></a> [resources](#input\_resources) | Schema list of resources to associate to the resource share | <pre>list(object({<br/>    name         = string # used as for_each key; cannot be an attribute of a resource in the same tfstate<br/>    resource_arn = string # ARN of the resource to associate with the share; *can* be an attribute of a resource in the same tfstate<br/>  }))</pre> | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to assign to the resource share | `map(string)` | `{}` | no |
 
 ## Outputs

@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+### [5.0.0](https://github.com/plus3it/terraform-aws-tardigrade-ram-share/releases/tag/5.0.0)
+
+**Released**: 2026.04.06
+
+**Summary**:
+
+*   Adds region input for enhanced region support in AWS provider v6
+*   Updates minimum required AWS provider version to v6
+
 ### 4.0.0
 
 **Released**: 2022.05.16

@@ -24,6 +24,12 @@ variable "resources" {
   default = []
 }
 
+variable "region" {
+  description = "AWS region where the RAM Share is located (if different from the provider region)"
+  type        = string
+  default     = null
+}
+
 variable "tags" {
   description = "Map of tags to assign to the resource share"
   type        = map(string)

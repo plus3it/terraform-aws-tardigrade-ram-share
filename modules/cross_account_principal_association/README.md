@@ -25,6 +25,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_resource_share_arn"></a> [resource\_share\_arn](#input\_resource\_share\_arn) | ARN of the resource share | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | AWS region where the RAM Share is located (if different from the provider region) | `string` | `null` | no |
 
 ## Outputs
 

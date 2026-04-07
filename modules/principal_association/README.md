@@ -6,13 +6,13 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.37.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.37.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.0 |
 
 ## Resources
 
@@ -25,6 +25,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_principal"></a> [principal](#input\_principal) | The principal to associate with the resource share. Possible values are an AWS account ID, an AWS Organizations Organization ARN, or an AWS Organizations Organization Unit ARN. | `string` | n/a | yes |
 | <a name="input_resource_share_arn"></a> [resource\_share\_arn](#input\_resource\_share\_arn) | ARN of the resource share | `string` | n/a | yes |
+| <a name="input_region"></a> [region](#input\_region) | AWS region where the RAM Share is located (if different from the provider region) | `string` | `null` | no |
 
 ## Outputs
 

@@ -6,12 +6,14 @@ module "principal_association" {
   }
 
   principal          = data.aws_caller_identity.this.account_id
+  region             = var.region
   resource_share_arn = var.resource_share_arn
 }
 
 module "accepter" {
   source = "../share_accepter"
 
+  region             = var.region
   resource_share_arn = module.principal_association.principal_association.resource_share_arn
 }
 
